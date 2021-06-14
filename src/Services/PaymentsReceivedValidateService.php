@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Validator;
 use Rutatiina\Contact\Models\Contact;
 use Rutatiina\PaymentsReceived\Models\Setting;
 
-class ReceiptValidateService
+class PaymentsReceivedValidateService
 {
     public static $errors = [];
 

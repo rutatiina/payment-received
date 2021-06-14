@@ -22,7 +22,7 @@ use Rutatiina\Tenant\Traits\TenantTrait;
 use Rutatiina\Contact\Traits\ContactTrait;
 use Yajra\DataTables\Facades\DataTables;
 
-class ReceiptOnInvoiceController extends Controller
+class PaymentsReceivedOnInvoiceController extends Controller
 {
     use ContactTrait;
 

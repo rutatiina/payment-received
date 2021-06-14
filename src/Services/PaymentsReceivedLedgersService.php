@@ -6,7 +6,7 @@ use Rutatiina\PaymentsReceived\Models\PaymentsReceivedItem;
 use Rutatiina\PaymentsReceived\Models\PaymentsReceivedItemTax;
 use Rutatiina\PaymentsReceived\Models\PaymentsReceivedLedger;
 
-class ReceiptLedgersService
+class PaymentsReceivedLedgersService
 {
     public static $errors = [];
 
@@ -20,7 +20,7 @@ class ReceiptLedgersService
         foreach ($data['ledgers'] as &$ledger)
         {
             $ledger['receipt_id'] = $data['id'];
-            ReceiptLedger::create($ledger);
+            PaymentsReceivedLedger::create($ledger);
         }
         unset($ledger);
 

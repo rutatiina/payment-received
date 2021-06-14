@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRgReceiptCommentsTable extends Migration
+class CreateRgPaymentsReceivedItemTaxesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateRgReceiptCommentsTable extends Migration
      */
     public function up()
     {
-        Schema::connection('tenant')->create('rg_receipt_comments', function (Blueprint $table) {
+        Schema::connection('tenant')->create('rg_payments_received_item_taxes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
 
@@ -27,7 +27,11 @@ class CreateRgReceiptCommentsTable extends Migration
             //>> table columns
             $table->unsignedBigInteger('project_id')->nullable();
             $table->unsignedBigInteger('receipt_id');
-            $table->string('comment', 250);
+            $table->unsignedBigInteger('receipt_item_id');
+            $table->char('tax_code', 50);
+            $table->unsignedDecimal('amount', 20,5);
+            $table->unsignedDecimal('inclusive', 20,5);
+            $table->unsignedDecimal('exclusive', 20,5);
 
         });
     }
@@ -39,6 +43,6 @@ class CreateRgReceiptCommentsTable extends Migration
      */
     public function down()
     {
-        Schema::connection('tenant')->dropIfExists('rg_receipt_comments');
+        Schema::connection('tenant')->dropIfExists('rg_payments_received_item_taxes');
     }
 }

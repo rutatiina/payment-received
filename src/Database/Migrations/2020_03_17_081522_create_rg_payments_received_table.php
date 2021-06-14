@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRgReceiptsTable extends Migration
+class CreateRgPaymentsReceivedTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateRgReceiptsTable extends Migration
      */
     public function up()
     {
-        Schema::connection('tenant')->create('rg_receipts', function (Blueprint $table) {
+        Schema::connection('tenant')->create('rg_payments_received', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
 
@@ -65,6 +65,6 @@ class CreateRgReceiptsTable extends Migration
      */
     public function down()
     {
-        Schema::connection('tenant')->dropIfExists('rg_receipts');
+        Schema::connection('tenant')->dropIfExists('rg_payments_received');
     }
 }

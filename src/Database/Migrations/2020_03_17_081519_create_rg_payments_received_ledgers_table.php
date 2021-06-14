@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRgReceiptItemTaxesTable extends Migration
+class CreateRgPaymentsReceivedLedgersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateRgReceiptItemTaxesTable extends Migration
      */
     public function up()
     {
-        Schema::connection('tenant')->create('rg_receipt_item_taxes', function (Blueprint $table) {
+        Schema::connection('tenant')->create('rg_payments_received_ledgers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
 
@@ -27,12 +27,15 @@ class CreateRgReceiptItemTaxesTable extends Migration
             //>> table columns
             $table->unsignedBigInteger('project_id')->nullable();
             $table->unsignedBigInteger('receipt_id');
-            $table->unsignedBigInteger('receipt_item_id');
-            $table->char('tax_code', 50);
-            $table->unsignedDecimal('amount', 20,5);
-            $table->unsignedDecimal('inclusive', 20,5);
-            $table->unsignedDecimal('exclusive', 20,5);
-
+            $table->date('date');
+            $table->date('external_date');
+            $table->unsignedBigInteger('financial_account_code');
+            $table->enum('effect', ['debit', 'credit']);
+            $table->unsignedDecimal('total', 20, 5);
+            $table->string('base_currency', 3);
+            $table->string('quote_currency', 3);
+            $table->unsignedDecimal('exchange_rate', 20,5);
+            $table->unsignedBigInteger('contact_id');
         });
     }
 
@@ -43,6 +46,6 @@ class CreateRgReceiptItemTaxesTable extends Migration
      */
     public function down()
     {
-        Schema::connection('tenant')->dropIfExists('rg_receipt_item_taxes');
+        Schema::connection('tenant')->dropIfExists('rg_payments_received_ledgers');
     }
 }

@@ -5,7 +5,7 @@ namespace Rutatiina\PaymentsReceived\Services;
 use Rutatiina\PaymentsReceived\Models\PaymentsReceivedItem;
 use Rutatiina\PaymentsReceived\Models\PaymentsReceivedItemTax;
 
-class ReceiptItemService
+class PaymentsReceivedItemService
 {
     public static $errors = [];
 
@@ -26,12 +26,12 @@ class ReceiptItemService
             $itemTaxes = (is_array($item['taxes'])) ? $item['taxes'] : [] ;
             unset($item['taxes']);
 
-            $itemModel = ReceiptItem::create($item);
+            $itemModel = PaymentsReceivedItem::create($item);
 
             foreach ($itemTaxes as $tax)
             {
                 //save the taxes attached to the item
-                $itemTax = new ReceiptItemTax;
+                $itemTax = new PaymentsReceivedItemTax;
                 $itemTax->tenant_id = $item['tenant_id'];
                 $itemTax->receipt_id = $item['receipt_id'];
                 $itemTax->receipt_item_id = $itemModel->id;

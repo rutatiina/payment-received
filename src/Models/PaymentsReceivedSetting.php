@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use App\Scopes\TenantIdScope;
 
-class Setting extends Model
+class PaymentsReceivedSetting extends Model
 {
     use LogsActivity;
 
-    protected static $logName = 'Receipt Settings';
+    protected static $logName = 'Payments Received Settings';
     protected static $logFillable = true;
     protected static $logAttributes = ['*'];
     protected static $logAttributesToIgnore = ['updated_at'];

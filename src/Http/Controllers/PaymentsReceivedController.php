@@ -19,7 +19,7 @@ use Rutatiina\RetainerInvoice\Services\RetainerInvoiceService;
 use Yajra\DataTables\Facades\DataTables;
 
 //controller not in use
-class ReceiptController extends Controller
+class PaymentsReceivedController extends Controller
 {
     use FinancialAccountingTrait;
     use ContactTrait;

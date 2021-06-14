@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use App\Scopes\TenantIdScope;
 
-class ReceiptItem extends Model
+class PaymentsReceivedItemTax extends Model
 {
     use LogsActivity;
 
@@ -18,7 +18,7 @@ class ReceiptItem extends Model
 
     protected $connection = 'tenant';
 
-    protected $table = 'rg_receipt_items';
+    protected $table = 'rg_receipt_item_taxes';
 
     protected $primaryKey = 'id';
 
@@ -46,19 +46,19 @@ class ReceiptItem extends Model
         }
     }
 
+    public function tax()
+    {
+        return $this->hasOne('Rutatiina\Tax\Models\Tax', 'code', 'tax_code');
+    }
+
     public function receipt()
     {
-        return $this->hasOne('Rutatiina\PaymentsReceived\Models\PaymentsReceived', 'id', 'receipt_id');
+        return $this->belongsTo('Rutatiina\PaymentsReceived\Models\PaymentsReceived', 'receipt_id', 'id');
     }
 
-    public function invoice()
+    public function receipt_item()
     {
-        return $this->hasOne('Rutatiina\Invoice\Models\Invoice', 'id', 'invoice_id');
-    }
-
-    public function taxes()
-    {
-        return $this->hasMany('Rutatiina\PaymentsReceived\Models\PaymentsReceivedItemTax', 'receipt_item_id', 'id');
+        return $this->belongsTo('Rutatiina\PaymentsReceived\Models\PaymentsReceivedItem', 'receipt_item_id', 'id');
     }
 
 }

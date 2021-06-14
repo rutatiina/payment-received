@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use App\Scopes\TenantIdScope;
 
-class ReceiptLedger extends Model
+class PaymentsReceivedComment extends Model
 {
     use LogsActivity;
 
-    protected static $logName = 'TxnLedger';
+    protected static $logName = 'TxnComment';
     protected static $logFillable = true;
     protected static $logAttributes = ['*'];
     protected static $logAttributesToIgnore = ['updated_at'];
@@ -18,11 +18,9 @@ class ReceiptLedger extends Model
 
     protected $connection = 'tenant';
 
-    protected $table = 'rg_receipt_ledgers';
+    protected $table = 'rg_receipt_comments';
 
     protected $primaryKey = 'id';
-
-    protected $guarded = ['id'];
 
     /**
      * The "booting" method of the model.
@@ -34,11 +32,6 @@ class ReceiptLedger extends Model
         parent::boot();
 
         static::addGlobalScope(new TenantIdScope);
-    }
-
-    public function receipt()
-    {
-        return $this->belongsTo('Rutatiina\PaymentsReceived\Models\PaymentsReceived', 'receipt_id');
     }
 
 }
