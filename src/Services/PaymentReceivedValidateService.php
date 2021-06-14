@@ -4,7 +4,7 @@ namespace Rutatiina\PaymentReceived\Services;
 
 use Illuminate\Support\Facades\Validator;
 use Rutatiina\Contact\Models\Contact;
-use Rutatiina\PaymentReceived\Models\Setting;
+use Rutatiina\PaymentReceived\Models\PaymentReceivedSetting;
 
 class PaymentReceivedValidateService
 {
@@ -57,7 +57,7 @@ class PaymentReceivedValidateService
 
         // << data validation <<------------------------------------------------------------
 
-        $settings = Setting::has('financial_account_to_debit')
+        $settings = PaymentReceivedSetting::has('financial_account_to_debit')
             ->has('financial_account_to_credit')
             ->with(['financial_account_to_debit', 'financial_account_to_credit'])
             ->firstOrFail();

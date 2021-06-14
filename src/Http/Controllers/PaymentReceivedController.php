@@ -3,7 +3,7 @@
 namespace Rutatiina\PaymentReceived\Http\Controllers;
 
 use Illuminate\Support\Facades\URL;
-use Rutatiina\PaymentReceived\Models\Setting;
+use Rutatiina\PaymentReceived\Models\PaymentReceivedSetting;
 use Rutatiina\Invoice\Models\Invoice;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request as FacadesRequest;
@@ -26,10 +26,10 @@ class PaymentReceivedController extends Controller
 
     public function __construct()
     {
-        $this->middleware('permission:receipts.view');
-        $this->middleware('permission:receipts.create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:receipts.update', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:receipts.delete', ['only' => ['destroy']]);
+        //$this->middleware('permission:payments-received.view');
+        //$this->middleware('permission:payments-received.create', ['only' => ['create', 'store']]);
+        //$this->middleware('permission:payments-received.update', ['only' => ['edit', 'update']]);
+        //$this->middleware('permission:payments-received.delete', ['only' => ['destroy']]);
     }
 
     public function index(Request $request)
@@ -40,7 +40,7 @@ class PaymentReceivedController extends Controller
             return view('l-limitless-bs4.layout_2-ltr-default.appVue');
         }
 
-        $query = Receipt::query();
+        $query = PaymentReceived::query();
 
         if ($request->contact)
         {
@@ -70,9 +70,9 @@ class PaymentReceivedController extends Controller
 
         $tenant = Auth::user()->tenant;
 
-        $txnAttributes = (new Receipt())->rgGetAttributes();
+        $txnAttributes = (new PaymentReceived())->rgGetAttributes();
 
-        $txnAttributes['number'] = ReceiptService::nextNumber();
+        $txnAttributes['number'] = PaymentReceivedService::nextNumber();
         $txnAttributes['status'] = 'approved';
         $txnAttributes['contact_id'] = '';
         $txnAttributes['contact'] = json_decode('{"currencies":[]}'); #required
@@ -88,9 +88,9 @@ class PaymentReceivedController extends Controller
         unset($txnAttributes['credit_contact_id']); //!important
 
         $data = [
-            'pageTitle' => 'Create Receipt', #required
+            'pageTitle' => 'Create PaymentReceived', #required
             'pageAction' => 'Create', #required
-            'txnUrlStore' => '/receipts', #required
+            'txnUrlStore' => '/payments-received', #required
             'txnAttributes' => $txnAttributes, #required
         ];
 
@@ -102,21 +102,21 @@ class PaymentReceivedController extends Controller
     {
         //return $request->all();
 
-        $storeService = ReceiptService::store($request);
+        $storeService = PaymentReceivedService::store($request);
 
         if ($storeService == false)
         {
             return [
                 'status' => false,
-                'messages' => ReceiptService::$errors
+                'messages' => PaymentReceivedService::$errors
             ];
         }
 
         return [
             'status' => true,
-            'messages' => ['Receipt saved'],
+            'messages' => ['Payment Received saved'],
             'number' => 0,
-            'callback' => URL::route('receipts.show', [$storeService->id], false)
+            'callback' => URL::route('payments-received.show', [$storeService->id], false)
         ];
     }
 
@@ -128,7 +128,7 @@ class PaymentReceivedController extends Controller
             return view('l-limitless-bs4.layout_2-ltr-default.appVue');
         }
 
-        $txn = Receipt::findOrFail($id);
+        $txn = PaymentReceived::findOrFail($id);
         $txn->load('contact', 'items.taxes');
         $txn->setAppends([
             'taxes',
@@ -147,12 +147,12 @@ class PaymentReceivedController extends Controller
             return view('l-limitless-bs4.layout_2-ltr-default.appVue');
         }
 
-        $txnAttributes = ReceiptService::edit($id);
+        $txnAttributes = PaymentReceivedService::edit($id);
 
         $data = [
             'pageTitle' => 'Edit receipt', #required
             'pageAction' => 'Edit', #required
-            'txnUrlStore' => '/receipts/' . $id, #required
+            'txnUrlStore' => '/payments-received/' . $id, #required
             'txnAttributes' => $txnAttributes, #required
         ];
 
@@ -163,41 +163,41 @@ class PaymentReceivedController extends Controller
     {
         //return $request->all();
 
-        $storeService = ReceiptService::update($request);
+        $storeService = PaymentReceivedService::update($request);
 
         if ($storeService == false)
         {
             return [
                 'status' => false,
-                'messages' => ReceiptService::$errors
+                'messages' => PaymentReceivedService::$errors
             ];
         }
 
         return [
             'status' => true,
-            'messages' => ['Receipt updated'],
+            'messages' => ['Payment Received updated'],
             'number' => 0,
-            'callback' => URL::route('receipts.show', [$storeService->id], false)
+            'callback' => URL::route('payments-received.show', [$storeService->id], false)
         ];
     }
 
     public function destroy($id)
     {
-        $destroy = ReceiptService::destroy($id);
+        $destroy = PaymentReceivedService::destroy($id);
 
         if ($destroy)
         {
             return [
                 'status' => true,
-                'messages' => ['Receipt deleted'],
-                'callback' => URL::route('receipts.index', [], false)
+                'messages' => ['Payment Received deleted'],
+                'callback' => URL::route('payments-received.index', [], false)
             ];
         }
         else
         {
             return [
                 'status' => false,
-                'messages' => ReceiptService::$errors
+                'messages' => PaymentReceivedService::$errors
             ];
         }
     }
@@ -218,7 +218,7 @@ class PaymentReceivedController extends Controller
 
         return [
             'status' => true,
-            'messages' => ['Receipts approved'],
+            'messages' => ['Payment Receiveds approved'],
         ];
     }
 
@@ -230,8 +230,8 @@ class PaymentReceivedController extends Controller
 
     public function datatables(Request $request)
     {
-        $txns = Transaction::setRoute('show', route('accounting.sales.receipts.show', '_id_'))
-            ->setRoute('edit', route('accounting.sales.receipts.edit', '_id_'))
+        $txns = Transaction::setRoute('show', route('accounting.sales.payments-received.show', '_id_'))
+            ->setRoute('edit', route('accounting.sales.payments-received.edit', '_id_'))
             ->setSortBy($request->sort_by)
             ->paginate(false)
             ->findByEntree($this->txnEntreeSlug);
@@ -288,11 +288,11 @@ class PaymentReceivedController extends Controller
 
         if ($validator->fails())
         {
-            $response = ['status' => false, 'message' => ''];
+            $response = ['status' => false, 'messages' => ''];
 
             foreach ($validator->errors()->all() as $field => $messages)
             {
-                $response['message'] .= "\n" . $messages;
+                $response['messages'][] = $messages;
             }
 
             return json_encode($response);
@@ -415,11 +415,11 @@ class PaymentReceivedController extends Controller
 
         if ($validator->fails())
         {
-            $response = ['status' => false, 'message' => ''];
+            $response = ['status' => false, 'messages' => ''];
 
             foreach ($validator->errors()->all() as $field => $messages)
             {
-                $response['message'] .= "\n" . $messages;
+                $response['messages'][] = $messages;
             }
 
             return json_encode($response);
@@ -429,8 +429,8 @@ class PaymentReceivedController extends Controller
 
         $notes = '';
 
-        $last_receipt = Receipt::latest()->first();
-        $settings = Setting::first();
+        $last_receipt = PaymentReceived::latest()->first();
+        $settings = PaymentReceivedSetting::first();
 
         $fields = [
             'internal_ref' => $invoice->id,

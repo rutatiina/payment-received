@@ -7,13 +7,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Rutatiina\PaymentReceived\Models\PaymentReceived;
-use Rutatiina\PaymentReceived\Models\PaymentReceivedItem;
-use Rutatiina\PaymentReceived\Models\PaymentReceivedItemTax;
 use Rutatiina\FinancialAccounting\Services\AccountBalanceUpdateService;
 use Rutatiina\FinancialAccounting\Services\ContactBalanceUpdateService;
-use Rutatiina\PaymentReceived\Models\Setting;
+use Rutatiina\PaymentReceived\Models\PaymentReceivedSetting;
 use Rutatiina\Tax\Models\Tax;
-use \Rutatiina\PaymentReceived\Services\PaymentReceivedApprovalService;
 
 class PaymentReceivedService
 {
@@ -27,7 +24,7 @@ class PaymentReceivedService
     public static function nextNumber()
     {
         $count = PaymentReceived::count();
-        $settings = Setting::first();
+        $settings = PaymentReceivedSetting::first();
 
         return $settings->number_prefix . (str_pad(($count + 1), $settings->minimum_number_length, "0", STR_PAD_LEFT)) . $settings->number_postfix;
     }
