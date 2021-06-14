@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRgPaymentsReceivedLedgersTable extends Migration
+class CreateRgPaymentReceivedItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateRgPaymentsReceivedLedgersTable extends Migration
      */
     public function up()
     {
-        Schema::connection('tenant')->create('rg_payments_received_ledgers', function (Blueprint $table) {
+        Schema::connection('tenant')->create('rg_payments_received_items', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
 
@@ -27,15 +27,13 @@ class CreateRgPaymentsReceivedLedgersTable extends Migration
             //>> table columns
             $table->unsignedBigInteger('project_id')->nullable();
             $table->unsignedBigInteger('receipt_id');
-            $table->date('date');
-            $table->date('external_date');
-            $table->unsignedBigInteger('financial_account_code');
-            $table->enum('effect', ['debit', 'credit']);
-            $table->unsignedDecimal('total', 20, 5);
-            $table->string('base_currency', 3);
-            $table->string('quote_currency', 3);
-            $table->unsignedDecimal('exchange_rate', 20,5);
-            $table->unsignedBigInteger('contact_id');
+            $table->unsignedBigInteger('invoice_id')->nullable();
+            $table->unsignedBigInteger('contact_id')->nullable();
+            $table->string('description', 250)->nullable();
+            $table->unsignedDecimal('amount', 20, 5);
+            $table->unsignedDecimal('taxable_amount', 20, 5);
+            $table->unsignedDecimal('amount_withheld', 20, 5);
+
         });
     }
 
@@ -46,6 +44,6 @@ class CreateRgPaymentsReceivedLedgersTable extends Migration
      */
     public function down()
     {
-        Schema::connection('tenant')->dropIfExists('rg_payments_received_ledgers');
+        Schema::connection('tenant')->dropIfExists('rg_payments_received_items');
     }
 }

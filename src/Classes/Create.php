@@ -1,12 +1,12 @@
 <?php
 
-namespace Rutatiina\PaymentsReceived\Classes;
+namespace Rutatiina\PaymentReceived\Classes;
 
 use Illuminate\Support\Facades\Auth;
 use Rutatiina\FinancialAccounting\Models\Txn;
 
-use Rutatiina\PaymentsReceived\Traits\Init as TxnTraitsInit;
-use Rutatiina\PaymentsReceived\Traits\Item as TxnItem;
+use Rutatiina\PaymentReceived\Traits\Init as TxnTraitsInit;
+use Rutatiina\PaymentReceived\Traits\Item as TxnItem;
 
 class Create
 {

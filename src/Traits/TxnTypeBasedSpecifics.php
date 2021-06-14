@@ -1,6 +1,6 @@
 <?php
 
-namespace Rutatiina\PaymentsReceived\Traits;
+namespace Rutatiina\PaymentReceived\Traits;
 
 use Illuminate\Support\Facades\Auth;
 

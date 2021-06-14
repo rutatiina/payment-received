@@ -1,12 +1,12 @@
 <?php
 
-namespace Rutatiina\PaymentsReceived\Models;
+namespace Rutatiina\PaymentReceived\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use App\Scopes\TenantIdScope;
 
-class PaymentsReceivedItem extends Model
+class PaymentReceivedItem extends Model
 {
     use LogsActivity;
 
@@ -48,7 +48,7 @@ class PaymentsReceivedItem extends Model
 
     public function receipt()
     {
-        return $this->hasOne('Rutatiina\PaymentsReceived\Models\PaymentsReceived', 'id', 'receipt_id');
+        return $this->hasOne('Rutatiina\PaymentReceived\Models\PaymentReceived', 'id', 'receipt_id');
     }
 
     public function invoice()
@@ -58,7 +58,7 @@ class PaymentsReceivedItem extends Model
 
     public function taxes()
     {
-        return $this->hasMany('Rutatiina\PaymentsReceived\Models\PaymentsReceivedItemTax', 'receipt_item_id', 'id');
+        return $this->hasMany('Rutatiina\PaymentReceived\Models\PaymentReceivedItemTax', 'receipt_item_id', 'id');
     }
 
 }

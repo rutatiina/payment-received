@@ -1,12 +1,12 @@
 <?php
 
-namespace Rutatiina\PaymentsReceived\Models;
+namespace Rutatiina\PaymentReceived\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use App\Scopes\TenantIdScope;
 
-class PaymentsReceivedComment extends Model
+class PaymentReceivedComment extends Model
 {
     use LogsActivity;
 

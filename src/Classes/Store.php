@@ -1,23 +1,23 @@
 <?php
 
-namespace Rutatiina\PaymentsReceived\Classes;
+namespace Rutatiina\PaymentReceived\Classes;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Rutatiina\Invoice\Models\Annex as InvoiceAnnex;
 use Rutatiina\Invoice\Models\Invoice;
-use Rutatiina\PaymentsReceived\Models\PaymentsReceived;
-use Rutatiina\PaymentsReceived\Models\PaymentsReceivedItem;
-use Rutatiina\PaymentsReceived\Models\PaymentsReceivedItemTax;
-use Rutatiina\PaymentsReceived\Models\PaymentsReceivedLedger;
-use Rutatiina\PaymentsReceived\Traits\Init as TxnTraitsInit;
-use Rutatiina\PaymentsReceived\Traits\TxnItemsContactsIdsLedgers as TxnTraitsTxnItemsContactsIdsLedgers;
-use Rutatiina\PaymentsReceived\Traits\TxnItemsJournalLedgers as TxnTraitsTxnItemsJournalLedgers;
-use Rutatiina\PaymentsReceived\Traits\TxnTypeBasedSpecifics as TxnTraitsTxnTypeBasedSpecifics;
-use Rutatiina\PaymentsReceived\Traits\Validate as TxnTraitsValidate;
-use Rutatiina\PaymentsReceived\Traits\AccountBalanceUpdate as TxnTraitsAccountBalanceUpdate;
-use Rutatiina\PaymentsReceived\Traits\ContactBalanceUpdate as TxnTraitsContactBalanceUpdate;
-use Rutatiina\PaymentsReceived\Traits\Approve as TxnTraitsApprove;
+use Rutatiina\PaymentReceived\Models\PaymentReceived;
+use Rutatiina\PaymentReceived\Models\PaymentReceivedItem;
+use Rutatiina\PaymentReceived\Models\PaymentReceivedItemTax;
+use Rutatiina\PaymentReceived\Models\PaymentReceivedLedger;
+use Rutatiina\PaymentReceived\Traits\Init as TxnTraitsInit;
+use Rutatiina\PaymentReceived\Traits\TxnItemsContactsIdsLedgers as TxnTraitsTxnItemsContactsIdsLedgers;
+use Rutatiina\PaymentReceived\Traits\TxnItemsJournalLedgers as TxnTraitsTxnItemsJournalLedgers;
+use Rutatiina\PaymentReceived\Traits\TxnTypeBasedSpecifics as TxnTraitsTxnTypeBasedSpecifics;
+use Rutatiina\PaymentReceived\Traits\Validate as TxnTraitsValidate;
+use Rutatiina\PaymentReceived\Traits\AccountBalanceUpdate as TxnTraitsAccountBalanceUpdate;
+use Rutatiina\PaymentReceived\Traits\ContactBalanceUpdate as TxnTraitsContactBalanceUpdate;
+use Rutatiina\PaymentReceived\Traits\Approve as TxnTraitsApprove;
 
 class Store
 {
@@ -110,7 +110,7 @@ class Store
                     'tenant_id' => $this->txn['tenant_id'],
                     'invoice_id' => $item['invoice_id'],
                     'name' => 'receipt',
-                    'model' => 'Rutatiina\PaymentsReceived\Models\PaymentsReceived',
+                    'model' => 'Rutatiina\PaymentReceived\Models\PaymentReceived',
                     'model_id' => $this->txn['id'],
                 ]);
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace Rutatiina\PaymentsReceived\Models;
+namespace Rutatiina\PaymentReceived\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use App\Scopes\TenantIdScope;
 
-class PaymentsReceived extends Model
+class PaymentReceived extends Model
 {
     use LogsActivity;
 
@@ -140,17 +140,17 @@ class PaymentsReceived extends Model
 
     public function items()
     {
-        return $this->hasMany('Rutatiina\PaymentsReceived\Models\PaymentsReceivedItem', 'receipt_id')->orderBy('id', 'asc');
+        return $this->hasMany('Rutatiina\PaymentReceived\Models\PaymentReceivedItem', 'receipt_id')->orderBy('id', 'asc');
     }
 
     public function ledgers()
     {
-        return $this->hasMany('Rutatiina\PaymentsReceived\Models\PaymentsReceivedLedger', 'receipt_id')->orderBy('id', 'asc');
+        return $this->hasMany('Rutatiina\PaymentReceived\Models\PaymentReceivedLedger', 'receipt_id')->orderBy('id', 'asc');
     }
 
     public function comments()
     {
-        return $this->hasMany('Rutatiina\PaymentsReceived\Models\PaymentsReceivedComment', 'receipt_id')->latest();
+        return $this->hasMany('Rutatiina\PaymentReceived\Models\PaymentReceivedComment', 'receipt_id')->latest();
     }
 
     public function contact()
@@ -170,7 +170,7 @@ class PaymentsReceived extends Model
 
     public function item_taxes()
     {
-        return $this->hasMany('Rutatiina\PaymentsReceived\Models\PaymentsReceivedItemTax', 'receipt_id', 'id');
+        return $this->hasMany('Rutatiina\PaymentReceived\Models\PaymentReceivedItemTax', 'receipt_id', 'id');
     }
 
     public function getTaxesAttribute()

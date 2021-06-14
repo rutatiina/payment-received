@@ -1,6 +1,6 @@
 <?php
 
-namespace Rutatiina\PaymentsReceived\Classes;
+namespace Rutatiina\PaymentReceived\Classes;
 
 use Illuminate\Support\Facades\Auth;
 use Rutatiina\Item\Models\Item;

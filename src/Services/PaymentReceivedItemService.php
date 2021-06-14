@@ -1,11 +1,11 @@
 <?php
 
-namespace Rutatiina\PaymentsReceived\Services;
+namespace Rutatiina\PaymentReceived\Services;
 
-use Rutatiina\PaymentsReceived\Models\PaymentsReceivedItem;
-use Rutatiina\PaymentsReceived\Models\PaymentsReceivedItemTax;
+use Rutatiina\PaymentReceived\Models\PaymentReceivedItem;
+use Rutatiina\PaymentReceived\Models\PaymentReceivedItemTax;
 
-class PaymentsReceivedItemService
+class PaymentReceivedItemService
 {
     public static $errors = [];
 
@@ -26,12 +26,12 @@ class PaymentsReceivedItemService
             $itemTaxes = (is_array($item['taxes'])) ? $item['taxes'] : [] ;
             unset($item['taxes']);
 
-            $itemModel = PaymentsReceivedItem::create($item);
+            $itemModel = PaymentReceivedItem::create($item);
 
             foreach ($itemTaxes as $tax)
             {
                 //save the taxes attached to the item
-                $itemTax = new PaymentsReceivedItemTax;
+                $itemTax = new PaymentReceivedItemTax;
                 $itemTax->tenant_id = $item['tenant_id'];
                 $itemTax->receipt_id = $item['receipt_id'];
                 $itemTax->receipt_item_id = $itemModel->id;

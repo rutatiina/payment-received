@@ -1,12 +1,12 @@
 <?php
 
-namespace Rutatiina\PaymentsReceived\Services;
+namespace Rutatiina\PaymentReceived\Services;
 
 use Illuminate\Support\Facades\Validator;
 use Rutatiina\Contact\Models\Contact;
-use Rutatiina\PaymentsReceived\Models\Setting;
+use Rutatiina\PaymentReceived\Models\Setting;
 
-class PaymentsReceivedValidateService
+class PaymentReceivedValidateService
 {
     public static $errors = [];
 

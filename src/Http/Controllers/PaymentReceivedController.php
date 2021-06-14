@@ -1,9 +1,9 @@
 <?php
 
-namespace Rutatiina\PaymentsReceived\Http\Controllers;
+namespace Rutatiina\PaymentReceived\Http\Controllers;
 
 use Illuminate\Support\Facades\URL;
-use Rutatiina\PaymentsReceived\Models\Setting;
+use Rutatiina\PaymentReceived\Models\Setting;
 use Rutatiina\Invoice\Models\Invoice;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request as FacadesRequest;
@@ -12,14 +12,14 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Rutatiina\FinancialAccounting\Models\Account;
 use Rutatiina\FinancialAccounting\Traits\FinancialAccountingTrait;
-use Rutatiina\PaymentsReceived\Models\PaymentsReceived;
+use Rutatiina\PaymentReceived\Models\PaymentReceived;
 use Rutatiina\Contact\Traits\ContactTrait;
-use Rutatiina\PaymentsReceived\Services\PaymentsReceivedService;
+use Rutatiina\PaymentReceived\Services\PaymentReceivedService;
 use Rutatiina\RetainerInvoice\Services\RetainerInvoiceService;
 use Yajra\DataTables\Facades\DataTables;
 
 //controller not in use
-class PaymentsReceivedController extends Controller
+class PaymentReceivedController extends Controller
 {
     use FinancialAccountingTrait;
     use ContactTrait;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Rutatiina\PaymentsReceived\Traits;
+namespace Rutatiina\PaymentReceived\Traits;
 
 use Rutatiina\FinancialAccounting\Models\AccountBalance;
 

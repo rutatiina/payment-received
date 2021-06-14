@@ -1,12 +1,12 @@
 <?php
 
-namespace Rutatiina\PaymentsReceived\Models;
+namespace Rutatiina\PaymentReceived\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use App\Scopes\TenantIdScope;
 
-class PaymentsReceivedLedger extends Model
+class PaymentReceivedLedger extends Model
 {
     use LogsActivity;
 
@@ -38,7 +38,7 @@ class PaymentsReceivedLedger extends Model
 
     public function receipt()
     {
-        return $this->belongsTo('Rutatiina\PaymentsReceived\Models\PaymentsReceived', 'receipt_id');
+        return $this->belongsTo('Rutatiina\PaymentReceived\Models\PaymentReceived', 'receipt_id');
     }
 
 }

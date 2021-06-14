@@ -1,5 +1,5 @@
 {
-    "name": "rutatiina/payments-received",
+    "name": "rutatiina/payment-received",
     "description": "Laravel Package to manage payments received (receipts)",
     "type": "library",
     "license": "MIT",
@@ -15,13 +15,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Rutatiina\\PaymentsReceived\\": "src/"
+            "Rutatiina\\PaymentReceived\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Rutatiina\\PaymentsReceived\\PaymentsReceivedServiceProvider"
+                "Rutatiina\\PaymentReceived\\PaymentReceivedServiceProvider"
             ]
         }
     }

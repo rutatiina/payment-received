@@ -1,19 +1,19 @@
 <?php
 
-namespace Rutatiina\PaymentsReceived\Http\Controllers;
+namespace Rutatiina\PaymentReceived\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Rutatiina\PaymentsReceived\Models\Setting;
+use Rutatiina\PaymentReceived\Models\Setting;
 use Rutatiina\FinancialAccounting\Traits\FinancialAccountingTrait;
 use Rutatiina\Item\Traits\ItemsVueSearchSelect;
 use Yajra\DataTables\Facades\DataTables;
 use Rutatiina\FinancialAccounting\Models\Account;
 
-class PaymentsReceivedSettingsController extends Controller
+class PaymentReceivedSettingsController extends Controller
 {
     use FinancialAccountingTrait;
     use ItemsVueSearchSelect;

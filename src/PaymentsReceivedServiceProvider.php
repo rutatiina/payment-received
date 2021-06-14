@@ -1,10 +1,10 @@
 <?php
 
-namespace Rutatiina\PaymentsReceived;
+namespace Rutatiina\PaymentReceived;
 
 use Illuminate\Support\ServiceProvider;
 
-class PaymentsReceivedServiceProvider extends ServiceProvider
+class PaymentReceivedServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap services.
@@ -27,6 +27,6 @@ class PaymentsReceivedServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->make('Rutatiina\PaymentsReceived\Http\Controllers\PaymentsReceivedController');
+        $this->app->make('Rutatiina\PaymentReceived\Http\Controllers\PaymentReceivedController');
     }
 }

@@ -1,19 +1,19 @@
 <?php
 
-namespace Rutatiina\PaymentsReceived\Classes;
+namespace Rutatiina\PaymentReceived\Classes;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Rutatiina\FinancialAccounting\Models\Txn;
 
-use Rutatiina\PaymentsReceived\Traits\Init as TxnTraitsInit;
-use Rutatiina\PaymentsReceived\Traits\Inventory as TxnTraitsInventory;
-use Rutatiina\PaymentsReceived\Traits\TxnItemsContactsIdsLedgers as TxnTraitsTxnItemsContactsIdsLedgers;
-use Rutatiina\PaymentsReceived\Traits\TxnTypeBasedSpecifics as TxnTraitsTxnTypeBasedSpecifics;
-use Rutatiina\PaymentsReceived\Traits\Validate as TxnTraitsValidate;
-use Rutatiina\PaymentsReceived\Traits\AccountBalanceUpdate as TxnTraitsAccountBalanceUpdate;
-use Rutatiina\PaymentsReceived\Traits\ContactBalanceUpdate as TxnTraitsContactBalanceUpdate;
-use Rutatiina\PaymentsReceived\Traits\Approve as TxnTraitsApprove;
+use Rutatiina\PaymentReceived\Traits\Init as TxnTraitsInit;
+use Rutatiina\PaymentReceived\Traits\Inventory as TxnTraitsInventory;
+use Rutatiina\PaymentReceived\Traits\TxnItemsContactsIdsLedgers as TxnTraitsTxnItemsContactsIdsLedgers;
+use Rutatiina\PaymentReceived\Traits\TxnTypeBasedSpecifics as TxnTraitsTxnTypeBasedSpecifics;
+use Rutatiina\PaymentReceived\Traits\Validate as TxnTraitsValidate;
+use Rutatiina\PaymentReceived\Traits\AccountBalanceUpdate as TxnTraitsAccountBalanceUpdate;
+use Rutatiina\PaymentReceived\Traits\ContactBalanceUpdate as TxnTraitsContactBalanceUpdate;
+use Rutatiina\PaymentReceived\Traits\Approve as TxnTraitsApprove;
 
 class Approve
 {

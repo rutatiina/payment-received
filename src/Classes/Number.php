@@ -1,12 +1,12 @@
 <?php
 
-namespace Rutatiina\PaymentsReceived\Classes;
+namespace Rutatiina\PaymentReceived\Classes;
 
 use Rutatiina\FinancialAccounting\Models\Txn;
 use Rutatiina\FinancialAccounting\Models\TxnNumberConfig;
 use Rutatiina\FinancialAccounting\Models\TxnNumber;
-use Rutatiina\PaymentsReceived\Traits\Init as TxnTraitsInit;
-use Rutatiina\PaymentsReceived\Traits\Entree as TxnEntree;
+use Rutatiina\PaymentReceived\Traits\Init as TxnTraitsInit;
+use Rutatiina\PaymentReceived\Traits\Entree as TxnEntree;
 
 class Number
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Rutatiina\PaymentsReceived\Traits;
+namespace Rutatiina\PaymentReceived\Traits;
 
 use Illuminate\Support\Facades\Validator;
 use Rutatiina\Contact\Models\Contact;
-use Rutatiina\PaymentsReceived\Models\PaymentsReceived;
-use Rutatiina\PaymentsReceived\Models\Setting;
+use Rutatiina\PaymentReceived\Models\PaymentReceived;
+use Rutatiina\PaymentReceived\Models\Setting;
 use Rutatiina\FinancialAccounting\Models\Account;
 use Rutatiina\Tax\Models\Tax;
 

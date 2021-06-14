@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRgPaymentsReceivedItemsTable extends Migration
+class CreateRgPaymentReceivedItemTaxesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateRgPaymentsReceivedItemsTable extends Migration
      */
     public function up()
     {
-        Schema::connection('tenant')->create('rg_payments_received_items', function (Blueprint $table) {
+        Schema::connection('tenant')->create('rg_payments_received_item_taxes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
 
@@ -27,12 +27,11 @@ class CreateRgPaymentsReceivedItemsTable extends Migration
             //>> table columns
             $table->unsignedBigInteger('project_id')->nullable();
             $table->unsignedBigInteger('receipt_id');
-            $table->unsignedBigInteger('invoice_id')->nullable();
-            $table->unsignedBigInteger('contact_id')->nullable();
-            $table->string('description', 250)->nullable();
-            $table->unsignedDecimal('amount', 20, 5);
-            $table->unsignedDecimal('taxable_amount', 20, 5);
-            $table->unsignedDecimal('amount_withheld', 20, 5);
+            $table->unsignedBigInteger('receipt_item_id');
+            $table->char('tax_code', 50);
+            $table->unsignedDecimal('amount', 20,5);
+            $table->unsignedDecimal('inclusive', 20,5);
+            $table->unsignedDecimal('exclusive', 20,5);
 
         });
     }
@@ -44,6 +43,6 @@ class CreateRgPaymentsReceivedItemsTable extends Migration
      */
     public function down()
     {
-        Schema::connection('tenant')->dropIfExists('rg_payments_received_items');
+        Schema::connection('tenant')->dropIfExists('rg_payments_received_item_taxes');
     }
 }

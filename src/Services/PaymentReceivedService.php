@@ -1,21 +1,21 @@
 <?php
 
-namespace Rutatiina\PaymentsReceived\Services;
+namespace Rutatiina\PaymentReceived\Services;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Rutatiina\PaymentsReceived\Models\PaymentsReceived;
-use Rutatiina\PaymentsReceived\Models\PaymentsReceivedItem;
-use Rutatiina\PaymentsReceived\Models\PaymentsReceivedItemTax;
+use Rutatiina\PaymentReceived\Models\PaymentReceived;
+use Rutatiina\PaymentReceived\Models\PaymentReceivedItem;
+use Rutatiina\PaymentReceived\Models\PaymentReceivedItemTax;
 use Rutatiina\FinancialAccounting\Services\AccountBalanceUpdateService;
 use Rutatiina\FinancialAccounting\Services\ContactBalanceUpdateService;
-use Rutatiina\PaymentsReceived\Models\Setting;
+use Rutatiina\PaymentReceived\Models\Setting;
 use Rutatiina\Tax\Models\Tax;
-use \Rutatiina\PaymentsReceived\Services\PaymentsReceivedApprovalService;
+use \Rutatiina\PaymentReceived\Services\PaymentReceivedApprovalService;
 
-class PaymentsReceivedService
+class PaymentReceivedService
 {
     public static $errors = [];
 
@@ -26,7 +26,7 @@ class PaymentsReceivedService
 
     public static function nextNumber()
     {
-        $count = PaymentsReceived::count();
+        $count = PaymentReceived::count();
         $settings = Setting::first();
 
         return $settings->number_prefix . (str_pad(($count + 1), $settings->minimum_number_length, "0", STR_PAD_LEFT)) . $settings->number_postfix;
@@ -36,7 +36,7 @@ class PaymentsReceivedService
     {
         $taxes = Tax::all()->keyBy('code');
 
-        $txn = PaymentsReceived::findOrFail($id);
+        $txn = PaymentReceived::findOrFail($id);
         $txn->load('contact', 'items.taxes', 'items.invoice');
         $txn->setAppends(['taxes']);
 
@@ -83,11 +83,11 @@ class PaymentsReceivedService
 
     public static function store($requestInstance)
     {
-        $data = PaymentsReceivedValidateService::run($requestInstance);
+        $data = PaymentReceivedValidateService::run($requestInstance);
         //print_r($data); exit;
         if ($data === false)
         {
-            self::$errors = PaymentsReceivedValidateService::$errors;
+            self::$errors = PaymentReceivedValidateService::$errors;
             return false;
         }
 
@@ -96,7 +96,7 @@ class PaymentsReceivedService
 
         try
         {
-            $Txn = new PaymentsReceived;
+            $Txn = new PaymentReceived;
             $Txn->tenant_id = $data['tenant_id'];
             $Txn->created_by = Auth::id();
             $Txn->document_name = $data['document_name'];
@@ -128,13 +128,13 @@ class PaymentsReceivedService
             //print_r($data['items']); exit;
 
             //Save the items >> $data['items']
-            PaymentsReceivedItemService::store($data);
+            PaymentReceivedItemService::store($data);
 
             //Save the ledgers >> $data['ledgers']; and update the balances
             //NOTE >> no need to update ledgers since this is not an accounting entry
 
             //check status and update financial account and contact balances accordingly
-            PaymentsReceivedApprovalService::run($data);
+            PaymentReceivedApprovalService::run($data);
 
             DB::connection('tenant')->commit();
 
@@ -169,11 +169,11 @@ class PaymentsReceivedService
 
     public static function update($requestInstance)
     {
-        $data = PaymentsReceivedValidateService::run($requestInstance);
+        $data = PaymentReceivedValidateService::run($requestInstance);
         //print_r($data); exit;
         if ($data === false)
         {
-            self::$errors = PaymentsReceivedValidateService::$errors;
+            self::$errors = PaymentReceivedValidateService::$errors;
             return false;
         }
 
@@ -182,7 +182,7 @@ class PaymentsReceivedService
 
         try
         {
-            $Txn = PaymentsReceived::with('items', 'ledgers')->findOrFail($data['id']);
+            $Txn = PaymentReceived::with('items', 'ledgers')->findOrFail($data['id']);
 
             if ($Txn->status == 'Approved')
             {
@@ -233,13 +233,13 @@ class PaymentsReceivedService
             //print_r($data['items']); exit;
 
             //Save the items >> $data['items']
-            PaymentsReceivedItemService::store($data);
+            PaymentReceivedItemService::store($data);
 
             //Save the ledgers >> $data['ledgers']; and update the balances
-            PaymentsReceivedLedgersService::store($data);
+            PaymentReceivedLedgersService::store($data);
 
             //check status and update financial account and contact balances accordingly
-            PaymentsReceivedApprovalService::run($data);
+            PaymentReceivedApprovalService::run($data);
 
             DB::connection('tenant')->commit();
 
@@ -278,7 +278,7 @@ class PaymentsReceivedService
 
         try
         {
-            $Txn = PaymentsReceived::findOrFail($id);
+            $Txn = PaymentReceived::findOrFail($id);
 
             if ($Txn->status == 'Approved')
             {
@@ -331,7 +331,7 @@ class PaymentsReceivedService
 
     public static function approve($id)
     {
-        $Txn = PaymentsReceived::with(['ledgers'])->findOrFail($id);
+        $Txn = PaymentReceived::with(['ledgers'])->findOrFail($id);
 
         if (strtolower($Txn->status) != 'draft')
         {
@@ -346,7 +346,7 @@ class PaymentsReceivedService
 
         try
         {
-            PaymentsReceivedApprovalService::run($data);
+            PaymentReceivedApprovalService::run($data);
 
             //update the status of the txn
             $Txn->status = 'Approved';

@@ -1,11 +1,11 @@
 <?php
 
-namespace Rutatiina\PaymentsReceived\Classes;
+namespace Rutatiina\PaymentReceived\Classes;
 
 use Rutatiina\Tax\Models\Tax;
-use Rutatiina\PaymentsReceived\Classes\Read as TxnRead;
+use Rutatiina\PaymentReceived\Classes\Read as TxnRead;
 
-use Rutatiina\PaymentsReceived\Traits\Init as TxnTraitsInit;
+use Rutatiina\PaymentReceived\Traits\Init as TxnTraitsInit;
 
 class Copy
 {

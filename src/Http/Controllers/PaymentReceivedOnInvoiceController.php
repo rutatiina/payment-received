@@ -1,11 +1,11 @@
 <?php
 
-namespace Rutatiina\PaymentsReceived\Http\Controllers;
+namespace Rutatiina\PaymentReceived\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Rutatiina\Invoice\Models\Invoice;
-use Rutatiina\PaymentsReceived\Models\PaymentsReceived;
-use Rutatiina\PaymentsReceived\Models\Setting;
+use Rutatiina\PaymentReceived\Models\PaymentReceived;
+use Rutatiina\PaymentReceived\Models\Setting;
 use URL;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -22,7 +22,7 @@ use Rutatiina\Tenant\Traits\TenantTrait;
 use Rutatiina\Contact\Traits\ContactTrait;
 use Yajra\DataTables\Facades\DataTables;
 
-class PaymentsReceivedOnInvoiceController extends Controller
+class PaymentReceivedOnInvoiceController extends Controller
 {
     use ContactTrait;
 

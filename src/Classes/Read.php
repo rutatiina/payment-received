@@ -1,10 +1,10 @@
 <?php
 
-namespace Rutatiina\PaymentsReceived\Classes;
+namespace Rutatiina\PaymentReceived\Classes;
 
-use Rutatiina\PaymentsReceived\Models\PaymentsReceived;
+use Rutatiina\PaymentReceived\Models\PaymentReceived;
 
-use Rutatiina\PaymentsReceived\Traits\Init as TxnTraitsInit;
+use Rutatiina\PaymentReceived\Traits\Init as TxnTraitsInit;
 
 class Read
 {

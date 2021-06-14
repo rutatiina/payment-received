@@ -1,12 +1,12 @@
 <?php
 
-namespace Rutatiina\PaymentsReceived\Models;
+namespace Rutatiina\PaymentReceived\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use App\Scopes\TenantIdScope;
 
-class PaymentsReceivedItemTax extends Model
+class PaymentReceivedItemTax extends Model
 {
     use LogsActivity;
 
@@ -53,12 +53,12 @@ class PaymentsReceivedItemTax extends Model
 
     public function receipt()
     {
-        return $this->belongsTo('Rutatiina\PaymentsReceived\Models\PaymentsReceived', 'receipt_id', 'id');
+        return $this->belongsTo('Rutatiina\PaymentReceived\Models\PaymentReceived', 'receipt_id', 'id');
     }
 
     public function receipt_item()
     {
-        return $this->belongsTo('Rutatiina\PaymentsReceived\Models\PaymentsReceivedItem', 'receipt_item_id', 'id');
+        return $this->belongsTo('Rutatiina\PaymentReceived\Models\PaymentReceivedItem', 'receipt_item_id', 'id');
     }
 
 }
