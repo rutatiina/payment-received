@@ -68,6 +68,8 @@ class PaymentReceivedController extends Controller
             return view('l-limitless-bs4.layout_2-ltr-default.appVue');
         }
 
+        $settings = PaymentReceivedSetting::has('financial_account_to_debit')->with(['financial_account_to_debit'])->firstOrFail();
+
         $tenant = Auth::user()->tenant;
 
         $txnAttributes = (new PaymentReceived())->rgGetAttributes();
@@ -80,8 +82,8 @@ class PaymentReceivedController extends Controller
         $txnAttributes['base_currency'] = $tenant->base_currency;
         $txnAttributes['quote_currency'] = $tenant->base_currency;
         $txnAttributes['taxes'] = json_decode('{}');
-        $txnAttributes['payment_mode'] = 'Cash';
-        $txnAttributes['debit_financial_account_code'] = 3;
+        $txnAttributes['payment_mode'] = optional($settings)->payment_mode_default;
+        $txnAttributes['debit_financial_account_code'] = optional($settings)->financial_account_to_debit->code;
         $txnAttributes['terms_and_conditions'] = null;
         $txnAttributes['items'] = [];
 
