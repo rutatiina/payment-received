@@ -19,7 +19,7 @@ class PaymentReceivedLedgersService
     {
         foreach ($data['ledgers'] as &$ledger)
         {
-            $ledger['receipt_id'] = $data['id'];
+            $ledger['payment_received_id'] = $data['id'];
             PaymentReceivedLedger::create($ledger);
         }
         unset($ledger);

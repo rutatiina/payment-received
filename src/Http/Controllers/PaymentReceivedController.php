@@ -80,12 +80,10 @@ class PaymentReceivedController extends Controller
         $txnAttributes['base_currency'] = $tenant->base_currency;
         $txnAttributes['quote_currency'] = $tenant->base_currency;
         $txnAttributes['taxes'] = json_decode('{}');
-        $txnAttributes['contact_notes'] = null;
+        $txnAttributes['payment_mode'] = 'Cash';
+        $txnAttributes['debit_financial_account_code'] = 3;
         $txnAttributes['terms_and_conditions'] = null;
         $txnAttributes['items'] = [];
-
-        unset($txnAttributes['debit_contact_id']); //!important
-        unset($txnAttributes['credit_contact_id']); //!important
 
         $data = [
             'pageTitle' => 'Create PaymentReceived', #required

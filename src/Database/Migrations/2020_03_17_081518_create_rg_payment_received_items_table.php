@@ -13,7 +13,7 @@ class CreateRgPaymentReceivedItemsTable extends Migration
      */
     public function up()
     {
-        Schema::connection('tenant')->create('rg_payments_received_items', function (Blueprint $table) {
+        Schema::connection('tenant')->create('rg_payment_received_items', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
 
@@ -26,7 +26,7 @@ class CreateRgPaymentReceivedItemsTable extends Migration
 
             //>> table columns
             $table->unsignedBigInteger('project_id')->nullable();
-            $table->unsignedBigInteger('receipt_id');
+            $table->unsignedBigInteger('payment_received_id');
             $table->unsignedBigInteger('invoice_id')->nullable();
             $table->unsignedBigInteger('contact_id')->nullable();
             $table->string('description', 250)->nullable();
@@ -44,6 +44,6 @@ class CreateRgPaymentReceivedItemsTable extends Migration
      */
     public function down()
     {
-        Schema::connection('tenant')->dropIfExists('rg_payments_received_items');
+        Schema::connection('tenant')->dropIfExists('rg_payment_received_items');
     }
 }

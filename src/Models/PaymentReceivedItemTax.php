@@ -18,7 +18,7 @@ class PaymentReceivedItemTax extends Model
 
     protected $connection = 'tenant';
 
-    protected $table = 'rg_receipt_item_taxes';
+    protected $table = 'rg_payment_received_item_taxes';
 
     protected $primaryKey = 'id';
 
@@ -51,14 +51,14 @@ class PaymentReceivedItemTax extends Model
         return $this->hasOne('Rutatiina\Tax\Models\Tax', 'code', 'tax_code');
     }
 
-    public function receipt()
+    public function payment_received()
     {
-        return $this->belongsTo('Rutatiina\PaymentReceived\Models\PaymentReceived', 'receipt_id', 'id');
+        return $this->belongsTo('Rutatiina\PaymentReceived\Models\PaymentReceived', 'payment_received_id', 'id');
     }
 
-    public function receipt_item()
+    public function payment_received_item()
     {
-        return $this->belongsTo('Rutatiina\PaymentReceived\Models\PaymentReceivedItem', 'receipt_item_id', 'id');
+        return $this->belongsTo('Rutatiina\PaymentReceived\Models\PaymentReceivedItem', 'payment_received_item_id', 'id');
     }
 
 }

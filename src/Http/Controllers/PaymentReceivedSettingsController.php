@@ -3,14 +3,12 @@
 namespace Rutatiina\PaymentReceived\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Rutatiina\PaymentReceived\Models\PaymentReceivedSetting;
 use Rutatiina\FinancialAccounting\Traits\FinancialAccountingTrait;
 use Rutatiina\Item\Traits\ItemsVueSearchSelect;
-use Yajra\DataTables\Facades\DataTables;
 use Rutatiina\FinancialAccounting\Models\Account;
 
 class PaymentReceivedSettingsController extends Controller
@@ -20,16 +18,17 @@ class PaymentReceivedSettingsController extends Controller
 
     public function __construct()
     {
-		$this->middleware('permission:estimates.view');
-		$this->middleware('permission:estimates.create', ['only' => ['create','store']]);
-		$this->middleware('permission:estimates.update', ['only' => ['edit','update']]);
-		$this->middleware('permission:estimates.delete', ['only' => ['destroy']]);
-	}
+        //$this->middleware('permission:estimates.view');
+        //$this->middleware('permission:estimates.create', ['only' => ['create','store']]);
+        //$this->middleware('permission:estimates.update', ['only' => ['edit','update']]);
+        //$this->middleware('permission:estimates.delete', ['only' => ['destroy']]);
+    }
 
     public function index()
-	{
+    {
         //load the vue version of the app
-        if (!FacadesRequest::wantsJson()) {
+        if (!FacadesRequest::wantsJson())
+        {
             return view('l-limitless-bs4.layout_2-ltr-default.appVue');
         }
 
@@ -45,8 +44,8 @@ class PaymentReceivedSettingsController extends Controller
     }
 
     public function store(Request $request)
-	{
-	    //print_r($request->all()); exit;
+    {
+        //print_r($request->all()); exit;
 
         //validate data posted
         $validator = Validator::make($request->all(), [
@@ -58,7 +57,8 @@ class PaymentReceivedSettingsController extends Controller
             //'maximum_number' => ['required', 'numeric'],
         ]);
 
-        if ($validator->fails()) {
+        if ($validator->fails())
+        {
             return ['status' => false, 'messages' => $validator->errors()->all()];
         }
 
@@ -69,37 +69,35 @@ class PaymentReceivedSettingsController extends Controller
         $settings->number_postfix = $request->number_postfix;
         $settings->minimum_number_length = $request->minimum_number_length;
         $settings->minimum_number = $request->minimum_number;
-        //$settings->maximum_number = $request->maximum_number;
-        $settings->debit_financial_account_code = $request->debit_financial_account_code;
         $settings->credit_financial_account_code = $request->credit_financial_account_code;
         $settings->save();
 
         return [
-            'status'    => true,
-            'messages'  => ['Settings updated'],
+            'status' => true,
+            'messages' => ['Settings updated'],
         ];
 
     }
 
     public function show($id)
-	{
-	    //
+    {
+        //
     }
 
     public function edit($id)
-	{
-	    //
+    {
+        //
     }
 
     public function update(Request $request)
-	{
-	    //
-	}
+    {
+        //
+    }
 
     public function destroy($id)
-	{
-	    //
-	}
+    {
+        //
+    }
 
-	#-----------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------
 }

@@ -57,8 +57,7 @@ class PaymentReceivedValidateService
 
         // << data validation <<------------------------------------------------------------
 
-        $settings = PaymentReceivedSetting::has('financial_account_to_debit')
-            ->has('financial_account_to_credit')
+        $settings = PaymentReceivedSetting::has('financial_account_to_credit')
             ->with(['financial_account_to_debit', 'financial_account_to_credit'])
             ->firstOrFail();
         //Log::info($this->settings);
@@ -75,10 +74,9 @@ class PaymentReceivedValidateService
         $data['document_name'] = $settings->document_name;
         $data['number'] = $requestInstance->input('number');
         $data['date'] = $requestInstance->input('date');
-        $data['debit_financial_account_code'] = $settings->financial_account_to_debit->code;
+        $data['debit_financial_account_code'] = $requestInstance->input('debit_financial_account_code');;
         $data['credit_financial_account_code'] = $settings->financial_account_to_credit->code;
-        $data['debit_contact_id'] = $requestInstance->contact_id;
-        $data['credit_contact_id'] = $requestInstance->contact_id;
+        $data['contact_id'] = $requestInstance->contact_id;
         $data['contact_name'] = $contact->name;
         $data['contact_address'] = trim($contact->shipping_address_street1 . ' ' . $contact->shipping_address_street2);
         $data['reference'] = $requestInstance->input('reference', null);
@@ -104,7 +102,7 @@ class PaymentReceivedValidateService
         {
             $itemTaxes = $requestInstance->input('items.'.$key.'.taxes', []);
 
-            $item['taxable_amount'] = $item['amount']; //todo >> this is to be updated in future when taxes are propelly applied to receipts
+            $item['taxable_amount'] = $item['amount']; //todo >> this is to be updated in future when taxes are propelly applied to payment_receiveds
 
             $txnTotal           += $item['amount'];
             $taxableAmount      += ($item['taxable_amount']);

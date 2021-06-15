@@ -26,8 +26,6 @@ class PaymentReceivedOnInvoiceController extends Controller
 {
     use ContactTrait;
 
-    private $txnEntreeSlug = 'receipt';
-
     public function __construct()
     {
         $this->middleware('permission:invoices.view');

@@ -18,7 +18,7 @@ class PaymentReceivedItem extends Model
 
     protected $connection = 'tenant';
 
-    protected $table = 'rg_receipt_items';
+    protected $table = 'rg_payment_received_items';
 
     protected $primaryKey = 'id';
 
@@ -46,9 +46,9 @@ class PaymentReceivedItem extends Model
         }
     }
 
-    public function receipt()
+    public function payment_received()
     {
-        return $this->hasOne('Rutatiina\PaymentReceived\Models\PaymentReceived', 'id', 'receipt_id');
+        return $this->hasOne('Rutatiina\PaymentReceived\Models\PaymentReceived', 'id', 'payment_received_id');
     }
 
     public function invoice()
@@ -58,7 +58,7 @@ class PaymentReceivedItem extends Model
 
     public function taxes()
     {
-        return $this->hasMany('Rutatiina\PaymentReceived\Models\PaymentReceivedItemTax', 'receipt_item_id', 'id');
+        return $this->hasMany('Rutatiina\PaymentReceived\Models\PaymentReceivedItemTax', 'payment_received_item_id', 'id');
     }
 
 }

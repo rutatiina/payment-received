@@ -18,7 +18,7 @@ class PaymentReceivedComment extends Model
 
     protected $connection = 'tenant';
 
-    protected $table = 'rg_receipt_comments';
+    protected $table = 'rg_payment_received_comments';
 
     protected $primaryKey = 'id';
 

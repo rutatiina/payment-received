@@ -18,7 +18,7 @@ class PaymentReceivedSetting extends Model
 
     protected $connection = 'tenant';
 
-    protected $table = 'rg_receipt_settings';
+    protected $table = 'rg_payment_received_settings';
 
     protected $primaryKey = 'id';
 

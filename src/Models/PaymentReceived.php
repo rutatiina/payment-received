@@ -18,7 +18,7 @@ class PaymentReceived extends Model
 
     protected $connection = 'tenant';
 
-    protected $table = 'rg_receipts';
+    protected $table = 'rg_payments_received';
 
     protected $primaryKey = 'id';
 
@@ -37,7 +37,6 @@ class PaymentReceived extends Model
     protected $appends = [
         'number_string',
         'total_in_words',
-        'contact_id',
     ];
 
     /**
@@ -93,9 +92,7 @@ class PaymentReceived extends Model
         $attributes['items'] = [];
         $attributes['ledgers'] = [];
         $attributes['comments'] = [];
-        $attributes['debit_contact'] = [];
-        $attributes['credit_contact'] = [];
-        $attributes['recurring'] = [];
+        $attributes['contact'] = [];
 
         return $attributes;
     }
@@ -116,18 +113,6 @@ class PaymentReceived extends Model
         return ucfirst($f->format($this->total));
     }
 
-    public function getContactIdAttribute()
-    {
-        if ($this->debit_contact_id == $this->credit_contact_id)
-        {
-            return $this->debit_contact_id;
-        }
-        else
-        {
-            return null;
-        }
-    }
-
     public function debit_financial_account()
     {
         return $this->hasOne('Rutatiina\FinancialAccounting\Models\Account', 'code', 'debit_financial_account_code');
@@ -140,37 +125,27 @@ class PaymentReceived extends Model
 
     public function items()
     {
-        return $this->hasMany('Rutatiina\PaymentReceived\Models\PaymentReceivedItem', 'receipt_id')->orderBy('id', 'asc');
+        return $this->hasMany('Rutatiina\PaymentReceived\Models\PaymentReceivedItem', 'payment_received_id')->orderBy('id', 'asc');
     }
 
     public function ledgers()
     {
-        return $this->hasMany('Rutatiina\PaymentReceived\Models\PaymentReceivedLedger', 'receipt_id')->orderBy('id', 'asc');
+        return $this->hasMany('Rutatiina\PaymentReceived\Models\PaymentReceivedLedger', 'payment_received_id')->orderBy('id', 'asc');
     }
 
     public function comments()
     {
-        return $this->hasMany('Rutatiina\PaymentReceived\Models\PaymentReceivedComment', 'receipt_id')->latest();
+        return $this->hasMany('Rutatiina\PaymentReceived\Models\PaymentReceivedComment', 'payment_received_id')->latest();
     }
 
     public function contact()
     {
-        return $this->hasOne('Rutatiina\Contact\Models\Contact', 'id', 'debit_contact_id');
-    }
-
-    public function debit_contact()
-    {
-        return $this->hasOne('Rutatiina\Contact\Models\Contact', 'id', 'debit_contact_id');
-    }
-
-    public function credit_contact()
-    {
-        return $this->hasOne('Rutatiina\Contact\Models\Contact', 'id', 'credit_contact_id');
+        return $this->hasOne('Rutatiina\Contact\Models\Contact', 'id', 'contact_id');
     }
 
     public function item_taxes()
     {
-        return $this->hasMany('Rutatiina\PaymentReceived\Models\PaymentReceivedItemTax', 'receipt_id', 'id');
+        return $this->hasMany('Rutatiina\PaymentReceived\Models\PaymentReceivedItemTax', 'payment_received_id', 'id');
     }
 
     public function getTaxesAttribute()

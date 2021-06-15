@@ -21,7 +21,7 @@ class PaymentReceivedItemService
         //Save the items >> $data['items']
         foreach ($data['items'] as &$item)
         {
-            $item['receipt_id'] = $data['id'];
+            $item['payment_received_id'] = $data['id'];
 
             $itemTaxes = (is_array($item['taxes'])) ? $item['taxes'] : [] ;
             unset($item['taxes']);
@@ -33,11 +33,11 @@ class PaymentReceivedItemService
                 //save the taxes attached to the item
                 $itemTax = new PaymentReceivedItemTax;
                 $itemTax->tenant_id = $item['tenant_id'];
-                $itemTax->receipt_id = $item['receipt_id'];
-                $itemTax->receipt_item_id = $itemModel->id;
+                $itemTax->payment_received_id = $item['payment_received_id'];
+                $itemTax->payment_received_item_id = $itemModel->id;
                 $itemTax->tax_code = $tax['code'];
                 $itemTax->amount = $tax['total'];
-                $itemTax->taxable_amount = $tax['total']; //todo >> this is to be updated in future when taxes are propelly applied to receipts
+                $itemTax->taxable_amount = $tax['total']; //todo >> this is to be updated in future when taxes are propelly applied to payment_receiveds
                 $itemTax->inclusive = $tax['inclusive'];
                 $itemTax->exclusive = $tax['exclusive'];
                 $itemTax->save();

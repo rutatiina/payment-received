@@ -13,7 +13,7 @@ class CreateRgPaymentReceivedSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::connection('tenant')->create('rg_payments_received_settings', function (Blueprint $table) {
+        Schema::connection('tenant')->create('rg_payment_received_settings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
 
@@ -48,6 +48,6 @@ class CreateRgPaymentReceivedSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::connection('tenant')->dropIfExists('rg_payments_received_settings');
+        Schema::connection('tenant')->dropIfExists('rg_payment_received_settings');
     }
 }

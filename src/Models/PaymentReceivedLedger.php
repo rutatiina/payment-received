@@ -18,7 +18,7 @@ class PaymentReceivedLedger extends Model
 
     protected $connection = 'tenant';
 
-    protected $table = 'rg_receipt_ledgers';
+    protected $table = 'rg_payment_received_ledgers';
 
     protected $primaryKey = 'id';
 
@@ -36,9 +36,9 @@ class PaymentReceivedLedger extends Model
         static::addGlobalScope(new TenantIdScope);
     }
 
-    public function receipt()
+    public function payment_received()
     {
-        return $this->belongsTo('Rutatiina\PaymentReceived\Models\PaymentReceived', 'receipt_id');
+        return $this->belongsTo('Rutatiina\PaymentReceived\Models\PaymentReceived', 'payment_received_id');
     }
 
 }
