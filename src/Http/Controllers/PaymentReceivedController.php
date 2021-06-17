@@ -46,8 +46,7 @@ class PaymentReceivedController extends Controller
         {
             $query->where(function ($q) use ($request)
             {
-                $q->where('debit_contact_id', $request->contact);
-                $q->orWhere('credit_contact_id', $request->contact);
+                $q->where('contact_id', $request->contact);
             });
         }
 
@@ -325,7 +324,7 @@ class PaymentReceivedController extends Controller
         $query = Invoice::query();
         $query->orderBy('date', 'ASC');
         $query->orderBy('id', 'ASC');
-        $query->whereIn('debit_contact_id', $contact_ids);
+        $query->whereIn('contact_id', $contact_ids);
         $query->whereColumn('total_paid', '<', 'total');
 
         $txns = $query->get();
@@ -353,13 +352,13 @@ class PaymentReceivedController extends Controller
                 'invoice' => $itemTxn,
                 'paidInFull' => false,
 
-                'txn_contact_id' => $txn->debit_contact_id,
+                'txn_contact_id' => $txn->contact_id,
                 'txn_number' => $txn->number,
                 'max_receipt_amount' => $txn->balance,
                 'txn_exchange_rate' => $txn->exchange_rate,
 
                 'invoice_id' => $txn->id,
-                'contact_id' => $txn->debit_contact_id,
+                'contact_id' => $txn->contact_id,
                 'description' => 'Invoice #' . $txn->number,
                 'amount' => 0,
                 'taxable_amount' => 0,
@@ -437,9 +436,7 @@ class PaymentReceivedController extends Controller
             'number' => $settings->number_prefix . (str_pad((optional($last_receipt)->number + 1), $settings->minimum_number_length, "0", STR_PAD_LEFT)) . $settings->number_postfix,
             'date' => date('Y-m-d'),
             'contact_name' => $invoice->contact_name,
-            'contact_id' => $invoice->debit_contact_id,
-            'debit_contact_id' => $invoice->debit_contact_id,
-            'credit_contact_id' => $invoice->credit_contact_id,
+            'contact_id' => $invoice->contact_id,
             'base_currency' => $invoice->base_currency,
             'payment_mode' => 'Cash',
             'payment_terms' => null,
@@ -463,13 +460,13 @@ class PaymentReceivedController extends Controller
                     ],
                     'paidInFull' => false,
 
-                    'txn_contact_id' => $invoice->debit_contact_id,
+                    'txn_contact_id' => $invoice->contact_id,
                     'txn_number' => $invoice->number,
                     'max_receipt_amount' => $invoice->balance,
                     'txn_exchange_rate' => $invoice->exchange_rate,
 
                     'invoice_id' => $invoice->id,
-                    'contact_id' => $invoice->debit_contact_id,
+                    'contact_id' => $invoice->contact_id,
                     'description' => 'Invoice #' . $invoice->number,
                     'displayTotal' => 0,
                     'name' => 'Invoice #' . $invoice->number,
