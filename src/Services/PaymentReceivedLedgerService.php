@@ -6,7 +6,7 @@ use Rutatiina\PaymentReceived\Models\PaymentReceivedItem;
 use Rutatiina\PaymentReceived\Models\PaymentReceivedItemTax;
 use Rutatiina\PaymentReceived\Models\PaymentReceivedLedger;
 
-class PaymentReceivedLedgersService
+class PaymentReceivedLedgerService
 {
     public static $errors = [];
 

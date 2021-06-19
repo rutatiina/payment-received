@@ -15,7 +15,6 @@ use Rutatiina\FinancialAccounting\Traits\FinancialAccountingTrait;
 use Rutatiina\PaymentReceived\Models\PaymentReceived;
 use Rutatiina\Contact\Traits\ContactTrait;
 use Rutatiina\PaymentReceived\Services\PaymentReceivedService;
-use Rutatiina\RetainerInvoice\Services\RetainerInvoiceService;
 use Yajra\DataTables\Facades\DataTables;
 
 //controller not in use
@@ -205,13 +204,13 @@ class PaymentReceivedController extends Controller
 
     public function approve($id)
     {
-        $approve = RetainerInvoiceService::approve($id);
+        $approve = PaymentReceivedService::approve($id);
 
         if ($approve == false)
         {
             return [
                 'status' => false,
-                'messages' => RetainerInvoiceService::$errors
+                'messages' => PaymentReceivedService::$errors
             ];
         }
 

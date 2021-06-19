@@ -5,7 +5,7 @@ namespace Rutatiina\PaymentReceived\Services;
 use Rutatiina\FinancialAccounting\Services\AccountBalanceUpdateService;
 use Rutatiina\FinancialAccounting\Services\ContactBalanceUpdateService;
 
-trait PaymentReceivedApprovalService
+class PaymentReceivedApprovalService
 {
     public static function run($data)
     {

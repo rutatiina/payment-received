@@ -126,10 +126,18 @@ class PaymentReceivedService
             PaymentReceivedItemService::store($data);
 
             //Save the ledgers >> $data['ledgers']; and update the balances
-            //NOTE >> no need to update ledgers since this is not an accounting entry
+            PaymentReceivedLedgerService::store($data);
 
             //check status and update financial account and contact balances accordingly
-            PaymentReceivedApprovalService::run($data);
+            $approval = PaymentReceivedApprovalService::run($data);
+
+            //update the status of the txn
+            if ($approval)
+            {
+                $Txn->status = $data['status'];
+                $Txn->balances_where_updated = 1;
+                $Txn->save();
+            }
 
             DB::connection('tenant')->commit();
 
@@ -230,10 +238,18 @@ class PaymentReceivedService
             PaymentReceivedItemService::store($data);
 
             //Save the ledgers >> $data['ledgers']; and update the balances
-            PaymentReceivedLedgersService::store($data);
+            PaymentReceivedLedgerService::store($data);
 
             //check status and update financial account and contact balances accordingly
-            PaymentReceivedApprovalService::run($data);
+            $approval = PaymentReceivedApprovalService::run($data);
+
+            //update the status of the txn
+            if ($approval)
+            {
+                $Txn->status = $data['status'];
+                $Txn->balances_where_updated = 1;
+                $Txn->save();
+            }
 
             DB::connection('tenant')->commit();
 
@@ -340,11 +356,16 @@ class PaymentReceivedService
 
         try
         {
-            PaymentReceivedApprovalService::run($data);
+            $data['status'] = 'approved';
+            $approval = PaymentReceivedApprovalService::run($data);
 
             //update the status of the txn
-            $Txn->status = 'Approved';
-            $Txn->save();
+            if ($approval)
+            {
+                $Txn->status = 'approved';
+                $Txn->balances_where_updated = 1;
+                $Txn->save();
+            }
 
             DB::connection('tenant')->commit();
 
