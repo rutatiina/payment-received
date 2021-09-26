@@ -36,7 +36,7 @@ class PaymentReceivedController extends Controller
         //load the vue version of the app
         if (!FacadesRequest::wantsJson())
         {
-            return view('l-limitless-bs4.layout_2-ltr-default.appVue');
+            return view('ui.limitless::layout_2-ltr-default.appVue');
         }
 
         $query = PaymentReceived::query();
@@ -63,7 +63,7 @@ class PaymentReceivedController extends Controller
         //load the vue version of the app
         if (!FacadesRequest::wantsJson())
         {
-            return view('l-limitless-bs4.layout_2-ltr-default.appVue');
+            return view('ui.limitless::layout_2-ltr-default.appVue');
         }
 
         $settings = PaymentReceivedSetting::has('financial_account_to_debit')->with(['financial_account_to_debit'])->firstOrFail();
@@ -123,7 +123,7 @@ class PaymentReceivedController extends Controller
         //load the vue version of the app
         if (!FacadesRequest::wantsJson())
         {
-            return view('l-limitless-bs4.layout_2-ltr-default.appVue');
+            return view('ui.limitless::layout_2-ltr-default.appVue');
         }
 
         $txn = PaymentReceived::findOrFail($id);
@@ -142,7 +142,7 @@ class PaymentReceivedController extends Controller
         //load the vue version of the app
         if (!FacadesRequest::wantsJson())
         {
-            return view('l-limitless-bs4.layout_2-ltr-default.appVue');
+            return view('ui.limitless::layout_2-ltr-default.appVue');
         }
 
         $txnAttributes = PaymentReceivedService::edit($id);
