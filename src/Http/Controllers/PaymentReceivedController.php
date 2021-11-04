@@ -470,7 +470,7 @@ class PaymentReceivedController extends Controller
                     'displayTotal' => 0,
                     'name' => 'Invoice #' . $invoice->number,
                     'quantity' => 1,
-                    'rate' => floatval($invoice->balance),
+                    'amount' => floatval($invoice->balance),
                     'selectedItem' => json_decode('{}'),
                     'selectedTaxes' => [],
                     'tax_id' => null,
