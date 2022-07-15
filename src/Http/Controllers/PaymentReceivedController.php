@@ -25,10 +25,10 @@ class PaymentReceivedController extends Controller
 
     public function __construct()
     {
-        //$this->middleware('permission:payments-received.view');
-        //$this->middleware('permission:payments-received.create', ['only' => ['create', 'store']]);
-        //$this->middleware('permission:payments-received.update', ['only' => ['edit', 'update']]);
-        //$this->middleware('permission:payments-received.delete', ['only' => ['destroy']]);
+        $this->middleware('permission:payments-received.view');
+        $this->middleware('permission:payments-received.create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:payments-received.update', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:payments-received.delete', ['only' => ['destroy']]);
     }
 
     public function index(Request $request)
