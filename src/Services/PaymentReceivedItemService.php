@@ -2,6 +2,7 @@
 
 namespace Rutatiina\PaymentReceived\Services;
 
+use Rutatiina\Invoice\Models\Invoice;
 use Rutatiina\PaymentReceived\Models\PaymentReceivedItem;
 use Rutatiina\PaymentReceived\Models\PaymentReceivedItemTax;
 
@@ -43,6 +44,12 @@ class PaymentReceivedItemService
                 $itemTax->save();
             }
             unset($tax);
+
+            //update the invoice total_paid
+            if (isset($item['invoice_id']) && is_numeric($item['invoice_id']) )
+            {
+                Invoice::where('id', $item['invoice_id'])->increment('total_paid', $item['amount']);
+            }
         }
         unset($item);
 

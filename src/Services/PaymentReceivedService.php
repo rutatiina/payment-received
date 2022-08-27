@@ -2,15 +2,16 @@
 
 namespace Rutatiina\PaymentReceived\Services;
 
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
+use Rutatiina\Tax\Models\Tax;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Rutatiina\Invoice\Models\Invoice;
 use Rutatiina\PaymentReceived\Models\PaymentReceived;
+use Rutatiina\PaymentReceived\Models\PaymentReceivedSetting;
 use Rutatiina\FinancialAccounting\Services\AccountBalanceUpdateService;
 use Rutatiina\FinancialAccounting\Services\ContactBalanceUpdateService;
-use Rutatiina\PaymentReceived\Models\PaymentReceivedSetting;
-use Rutatiina\Tax\Models\Tax;
 
 class PaymentReceivedService
 {
@@ -193,6 +194,15 @@ class PaymentReceivedService
                 return false;
             }
 
+            //undo the total_paid
+            foreach($Txn->items as $item)
+            {
+                if (isset($item['invoice_id']))
+                {
+                    Invoice::where('id', $item['invoice_id'])->decrement('total_paid', $item['amount']);
+                }
+            }
+
             //Delete affected relations
             $Txn->ledgers()->delete();
             $Txn->items()->delete();
@@ -295,6 +305,8 @@ class PaymentReceivedService
                 self::$errors[] = 'Approved Transaction cannot be not be deleted';
                 return false;
             }
+
+            //undo the total_paid - this is done dy deleting the items by the model
 
             //Delete affected relations
             $Txn->ledgers()->delete();

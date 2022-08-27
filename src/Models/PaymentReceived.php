@@ -2,9 +2,10 @@
 
 namespace Rutatiina\PaymentReceived\Models;
 
+use Rutatiina\Invoice\Models\Invoice;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Rutatiina\Tenant\Scopes\TenantIdScope;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class PaymentReceived extends Model
 {
@@ -52,6 +53,13 @@ class PaymentReceived extends Model
 
         self::deleting(function($txn) { // before delete() method call this
              $txn->items()->each(function($row) {
+                
+                //revert the total_paid
+                if (isset($row['invoice_id']))
+                {
+                    Invoice::where('id', $row['invoice_id'])->decrement('total_paid', $row['amount']);
+                }
+
                 $row->delete();
              });
              $txn->comments()->each(function($row) {
