@@ -86,7 +86,7 @@ class PaymentReceivedController extends Controller
         $txnAttributes['items'] = [];
 
         $data = [
-            'pageTitle' => 'Create PaymentReceived', #required
+            'pageTitle' => 'Issue Receipt', #required
             'pageAction' => 'Create', #required
             'txnUrlStore' => '/payments-received', #required
             'txnAttributes' => $txnAttributes, #required

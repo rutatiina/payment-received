@@ -15,6 +15,30 @@ class PaymentReceivedValidateService
         //$request = request(); //used for the flash when validation fails
         $user = auth()->user();
 
+        //if no ivoice is tagged create the items parameter
+        if (!$requestInstance->items)
+        {
+            $requestInstance->request->add(['exchange_rate' => 1]);
+            $requestInstance->request->add([
+                'items' => [
+                    [
+                        //'invoice' => 0,        
+                        'txn_contact_id' => $requestInstance->contact_id,
+                        'txn_number' => 0,
+                        'max_receipt_amount' => $requestInstance->total,
+                        //'txn_exchange_rate' => $txn->exchange_rate,
+            
+                        'invoice_id' => 0,
+                        'contact_id' => $requestInstance->contact_id,
+                        'description' => $requestInstance->description,
+                        'amount' => $requestInstance->total,
+                        'taxable_amount' => $requestInstance->total,
+                        'taxes' => [],
+                    ]
+                ]
+            ]);
+        }
+
 
         // >> data validation >>------------------------------------------------------------
 
@@ -27,7 +51,7 @@ class PaymentReceivedValidateService
         ];
 
         $rules = [
-            'contact_id' => 'required|numeric',
+            'contact_id' => 'nullable|numeric',
             'date' => 'required|date',
             'payment_mode' => 'required',
             'debit_financial_account_code' => 'required',
@@ -63,7 +87,7 @@ class PaymentReceivedValidateService
         //Log::info($this->settings);
 
 
-        $contact = Contact::findOrFail($requestInstance->contact_id);
+        $contact = Contact::find($requestInstance->contact_id);
 
 
         $data['id'] = $requestInstance->input('id', null); //for updating the id will always be posted
@@ -77,8 +101,8 @@ class PaymentReceivedValidateService
         $data['debit_financial_account_code'] = $requestInstance->input('debit_financial_account_code');;
         $data['credit_financial_account_code'] = $settings->financial_account_to_credit->code;
         $data['contact_id'] = $requestInstance->contact_id;
-        $data['contact_name'] = $contact->name;
-        $data['contact_address'] = trim($contact->shipping_address_street1 . ' ' . $contact->shipping_address_street2);
+        $data['contact_name'] = optional($contact)->name;
+        $data['contact_address'] = trim(optional($contact)->shipping_address_street1 . ' ' . optional($contact)->shipping_address_street2);
         $data['reference'] = $requestInstance->input('reference', null);
         $data['base_currency'] =  $requestInstance->input('base_currency');
         $data['quote_currency'] =  $requestInstance->input('quote_currency', $data['base_currency']);

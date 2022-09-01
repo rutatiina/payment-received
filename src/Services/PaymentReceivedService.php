@@ -130,10 +130,8 @@ class PaymentReceivedService
             PaymentReceivedLedgerService::store($data);
 
             //check status and update financial account and contact balances accordingly
-            $approval = PaymentReceivedApprovalService::run($data);
-
             //update the status of the txn
-            if ($approval)
+            if (PaymentReceivedApprovalService::run($data))
             {
                 $Txn->status = $data['status'];
                 $Txn->balances_where_updated = 1;

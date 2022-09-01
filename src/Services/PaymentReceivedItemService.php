@@ -46,7 +46,7 @@ class PaymentReceivedItemService
             unset($tax);
 
             //update the invoice total_paid
-            if (isset($item['invoice_id']) && is_numeric($item['invoice_id']) )
+            if (isset($item['invoice_id']) && is_numeric($item['invoice_id']) && $item['invoice_id'] > 0)
             {
                 Invoice::where('id', $item['invoice_id'])->increment('total_paid', $item['amount']);
             }
