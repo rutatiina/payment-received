@@ -17,6 +17,7 @@ Route::group(['middleware' => ['web', 'auth', 'tenant', 'service.accounting']], 
 
     });
 
+    Route::resource('payments-received/accounts', 'Rutatiina\PaymentReceived\Http\Controllers\PaymentReceivedAccountController');
     Route::resource('payments-received/settings', 'Rutatiina\PaymentReceived\Http\Controllers\PaymentReceivedSettingsController');
     Route::resource('payments-received', 'Rutatiina\PaymentReceived\Http\Controllers\PaymentReceivedController');
 
