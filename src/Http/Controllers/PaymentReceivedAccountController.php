@@ -80,12 +80,7 @@ class PaymentReceivedAccountController extends Controller
 
         //validate data posted
         $validator = Validator::make($request->all(), [
-            'document_name' => ['required', 'string', 'max:50'],
-            'number_prefix' => ['string', 'max:20', 'nullable'],
-            'number_postfix' => ['string', 'max:20', 'nullable'],
-            'minimum_number_length' => ['required', 'numeric'],
-            'minimum_number' => ['required', 'numeric'],
-            //'maximum_number' => ['required', 'numeric'],
+            'account' => ['required'],
         ]);
 
         if ($validator->fails())
@@ -93,19 +88,14 @@ class PaymentReceivedAccountController extends Controller
             return ['status' => false, 'messages' => $validator->errors()->all()];
         }
 
-        //save data posted
-        $settings = PaymentReceivedSetting::first();
-        $settings->document_name = $request->document_name;
-        $settings->number_prefix = $request->number_prefix;
-        $settings->number_postfix = $request->number_postfix;
-        $settings->minimum_number_length = $request->minimum_number_length;
-        $settings->minimum_number = $request->minimum_number;
-        $settings->credit_financial_account_code = $request->credit_financial_account_code;
-        $settings->save();
+        //update the account
+        Account::where('code', $request->account)->update([
+            'receipt' => 1
+        ]);
 
         return [
             'status' => true,
-            'messages' => ['Settings updated'],
+            'messages' => ['Account configuration updated'],
         ];
 
     }
@@ -127,7 +117,21 @@ class PaymentReceivedAccountController extends Controller
 
     public function destroy($id)
     {
-        //
+        
+        if (Account::where('id', $id)->update(['receipt' => 0]))
+        {
+            return [
+                'status' => true,
+                'messages' => ['Account configuration updated'],
+            ];
+        }
+        else
+        {
+            return [
+                'status' => false,
+                'messages' => ['Error: failed to update accout config. Please try again']
+            ];
+        }
     }
 
     #-----------------------------------------------------------------------------------

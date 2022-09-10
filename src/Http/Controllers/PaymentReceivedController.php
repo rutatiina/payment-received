@@ -223,7 +223,7 @@ class PaymentReceivedController extends Controller
     public function debitAccounts()
     {
         //list accounts that are either payment accounts or bank accounts
-        return Account::where('payment', 1)->orWhere('bank_account_id', '>', 0)->get();
+        return Account::where('receipt', 1)->orWhere('bank_account_id', '>', 0)->get();
     }
 
     public function datatables(Request $request)
