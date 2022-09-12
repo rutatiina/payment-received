@@ -33,7 +33,7 @@ class CreateRgPaymentsReceivedTable extends Migration
             $table->time('time');
             $table->unsignedBigInteger('debit_financial_account_code')->nullable();
             $table->unsignedBigInteger('credit_financial_account_code')->nullable();
-            $table->unsignedBigInteger('contact_id');
+            $table->unsignedBigInteger('contact_id')->nullable();
             $table->string('contact_name', 50);
             $table->string('contact_address', 50);
             $table->string('reference', 100)->nullable();
