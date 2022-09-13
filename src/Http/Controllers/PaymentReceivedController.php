@@ -281,12 +281,12 @@ class PaymentReceivedController extends Controller
 
         $validator = Validator::make($request->all(), [
             'contact_ids' => ['required', 'array'],
-            'contact_ids.*' => ['numeric'],
+            'contact_ids.*' => ['numeric','nullable'],
         ]);
 
         if ($validator->fails())
         {
-            $response = ['status' => false, 'messages' => ''];
+            $response = ['status' => false, 'messages' => []];
 
             foreach ($validator->errors()->all() as $field => $messages)
             {
