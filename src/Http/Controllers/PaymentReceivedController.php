@@ -81,7 +81,7 @@ class PaymentReceivedController extends Controller
         $txnAttributes['quote_currency'] = $tenant->base_currency;
         $txnAttributes['taxes'] = json_decode('{}');
         $txnAttributes['payment_mode'] = optional($settings)->payment_mode_default;
-        $txnAttributes['debit_financial_account_code'] = optional($settings)->financial_account_to_debit->code;
+        $txnAttributes['debit_financial_account_code'] = null; //optional($settings)->financial_account_to_debit->code; //this MUST be set by the user
         $txnAttributes['terms_and_conditions'] = null;
         $txnAttributes['items'] = [];
 

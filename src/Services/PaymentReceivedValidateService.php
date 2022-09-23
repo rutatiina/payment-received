@@ -15,6 +15,15 @@ class PaymentReceivedValidateService
         //$request = request(); //used for the flash when validation fails
         $user = auth()->user();
 
+        $settings = PaymentReceivedSetting::has('financial_account_to_credit')
+            ->with(['financial_account_to_debit', 'financial_account_to_credit'])
+            ->firstOrFail();
+        //Log::info($this->settings);
+
+        $creditFinancialAccountCode = $settings->financial_account_to_credit->code;
+
+        $requireCreditFinancialAccountCode = false;
+
         //if no ivoice is tagged create the items parameter
         if (!$requestInstance->items)
         {
@@ -37,6 +46,9 @@ class PaymentReceivedValidateService
                     ]
                 ]
             ]);
+
+            $creditFinancialAccountCode = $requestInstance->input('credit_financial_account_code');
+            $requireCreditFinancialAccountCode = true;
         }
 
 
@@ -48,6 +60,8 @@ class PaymentReceivedValidateService
             'items.*.taxes.*.code.required' => "Tax code is required.",
             'items.*.taxes.*.total.required' => "Tax total is required.",
             //'items.*.taxes.*.exclusive.required' => "Tax exclusive amount is required.",
+            'credit_financial_account_code.required' => 'The revenue account is required',
+            'credit_financial_account_code.numeric' => 'Invalid value for revenue account.'
         ];
 
         $rules = [
@@ -59,6 +73,7 @@ class PaymentReceivedValidateService
             'due_date' => 'date|nullable',
             'salesperson_contact_id' => 'numeric|nullable',
             'contact_notes' => 'string|nullable',
+            'total' => 'required|gt:0|numeric',
 
             'items' => 'required|array',
             'items.*.description' => 'required',
@@ -71,6 +86,11 @@ class PaymentReceivedValidateService
             //'items.*.taxes.*.exclusive' => 'required|numeric',
         ];
 
+        if ($requireCreditFinancialAccountCode)
+        {
+            $rules['credit_financial_account_code'] = 'required|numeric';
+        }
+
         $validator = Validator::make($requestInstance->all(), $rules, $customMessages);
 
         if ($validator->fails())
@@ -80,11 +100,6 @@ class PaymentReceivedValidateService
         }
 
         // << data validation <<------------------------------------------------------------
-
-        $settings = PaymentReceivedSetting::has('financial_account_to_credit')
-            ->with(['financial_account_to_debit', 'financial_account_to_credit'])
-            ->firstOrFail();
-        //Log::info($this->settings);
 
 
         $contact = Contact::find($requestInstance->contact_id);
@@ -99,7 +114,7 @@ class PaymentReceivedValidateService
         $data['number'] = $requestInstance->input('number');
         $data['date'] = $requestInstance->input('date');
         $data['debit_financial_account_code'] = $requestInstance->input('debit_financial_account_code');;
-        $data['credit_financial_account_code'] = $settings->financial_account_to_credit->code;
+        $data['credit_financial_account_code'] = $creditFinancialAccountCode;
         $data['contact_id'] = $requestInstance->contact_id;
         $data['contact_name'] = optional($contact)->name;
         $data['contact_address'] = trim(optional($contact)->shipping_address_street1 . ' ' . optional($contact)->shipping_address_street2);
@@ -157,7 +172,7 @@ class PaymentReceivedValidateService
 
         //DR ledger
         $data['ledgers'][] = [
-            'financial_account_code' => $settings->financial_account_to_debit->code,
+            'financial_account_code' => $data['debit_financial_account_code'],
             'effect' => 'debit',
             'total' => $data['total'],
             'contact_id' => $data['contact_id']
@@ -165,7 +180,7 @@ class PaymentReceivedValidateService
 
         //CR ledger
         $data['ledgers'][] = [
-            'financial_account_code' => $settings->financial_account_to_credit->code,
+            'financial_account_code' => $data['credit_financial_account_code'],
             'effect' => 'credit',
             'total' => $data['total'],
             'contact_id' => $data['contact_id']
