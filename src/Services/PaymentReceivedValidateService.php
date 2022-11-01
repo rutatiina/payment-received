@@ -24,7 +24,7 @@ class PaymentReceivedValidateService
 
         $requireCreditFinancialAccountCode = false;
 
-        //if no ivoice is tagged create the items parameter
+        //if no invoice is tagged create the items parameter
         if (!$requestInstance->items)
         {
             $requestInstance->request->add(['exchange_rate' => 1]);

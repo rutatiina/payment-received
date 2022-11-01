@@ -77,6 +77,12 @@ class PaymentReceivedService
 
         $attributes['total'] = floatval($attributes['total']); #required
 
+        //if the txn has only 1 item and is NOT attached to any invoice
+        if (count($attributes['items']) == 1 && !$attributes['items'][0]['invoice'])
+        {
+            $attributes['description'] = $attributes['items'][0]['description'];
+        }
+
         return $attributes;
     }
 
