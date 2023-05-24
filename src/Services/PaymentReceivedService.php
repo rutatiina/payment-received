@@ -134,12 +134,11 @@ class PaymentReceivedService
             //Save the items >> $data['items']
             PaymentReceivedItemService::store($data);
 
-            //Save the ledgers >> $data['ledgers']; and update the balances
-            PaymentReceivedLedgerService::store($data);
+            $Txn = $Txn->refresh();
 
             //check status and update financial account and contact balances accordingly
             //update the status of the txn
-            if (PaymentReceivedApprovalService::run($data))
+            if (PaymentReceivedApprovalService::run($Txn))
             {
                 $Txn->status = $data['status'];
                 $Txn->balances_where_updated = 1;
@@ -192,7 +191,7 @@ class PaymentReceivedService
 
         try
         {
-            $Txn = PaymentReceived::with('items', 'ledgers')->findOrFail($data['id']);
+            $Txn = PaymentReceived::with('items')->findOrFail($data['id']);
 
             if ($Txn->status == 'approved')
             {
@@ -209,8 +208,6 @@ class PaymentReceivedService
                 }
             }
 
-            //Delete affected relations
-            $Txn->ledgers()->delete();
             $Txn->items()->delete();
             $Txn->item_taxes()->delete();
             $Txn->comments()->delete();
@@ -253,11 +250,10 @@ class PaymentReceivedService
             //Save the items >> $data['items']
             PaymentReceivedItemService::store($data);
 
-            //Save the ledgers >> $data['ledgers']; and update the balances
-            PaymentReceivedLedgerService::store($data);
+            $Txn = $Txn->refresh();
 
             //check status and update financial account and contact balances accordingly
-            $approval = PaymentReceivedApprovalService::run($data);
+            $approval = PaymentReceivedApprovalService::run($Txn);
 
             //update the status of the txn
             if ($approval)
@@ -304,21 +300,13 @@ class PaymentReceivedService
 
         try
         {
-            $Txn = PaymentReceived::with('items', 'ledgers')->findOrFail($id);
+            $Txn = PaymentReceived::with('items')->findOrFail($id);
 
             if ($Txn->status == 'approved')
             {
                 self::$errors[] = 'Approved Receipts(s) cannot be not be deleted';
                 return false;
             }
-
-            //undo the total_paid - this is done dy deleting the items by the model
-
-            //Delete affected relations
-            $Txn->ledgers()->delete();
-            $Txn->items()->delete();
-            $Txn->item_taxes()->delete();
-            $Txn->comments()->delete();
 
             //reverse the account balances
             AccountBalanceUpdateService::doubleEntry($Txn, true);
@@ -359,7 +347,7 @@ class PaymentReceivedService
 
     public static function approve($id)
     {
-        $Txn = PaymentReceived::with(['ledgers'])->findOrFail($id);
+        $Txn = PaymentReceived::findOrFail($id);
 
         if (strtolower($Txn->status) != 'draft')
         {
