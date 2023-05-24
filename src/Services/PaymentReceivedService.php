@@ -134,7 +134,7 @@ class PaymentReceivedService
             //Save the items >> $data['items']
             PaymentReceivedItemService::store($data);
 
-            $Txn = $Txn->refresh();
+            $Txn->refresh();
 
             //check status and update financial account and contact balances accordingly
             //update the status of the txn
@@ -250,7 +250,7 @@ class PaymentReceivedService
             //Save the items >> $data['items']
             PaymentReceivedItemService::store($data);
 
-            $Txn = $Txn->refresh();
+            $Txn->refresh();
 
             //check status and update financial account and contact balances accordingly
             $approval = PaymentReceivedApprovalService::run($Txn);
